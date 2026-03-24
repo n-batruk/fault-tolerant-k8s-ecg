@@ -3,12 +3,17 @@ watchAnyNamespace: false
 watchNamespaces:
   - kafka
 
+# Decreased default values for test evniroment
 resources:
   requests:
-    cpu: 250m
-    memory: 384Mi
+    cpu: 100m
+    memory: 256Mi
   limits:
-    cpu: 1000m
-    memory: 1Gi
+    cpu: 500m
+    memory: 512Mi
 
+# Leaving 1 replica for test enviroment. For produrction it should be increased to 2-3
 replicas: 1
+
+# Controls whether Strimzi generates network policy resources (By default true)
+generateNetworkPolicy: true
