@@ -11,19 +11,15 @@ spec:
   kafka:
     version: 4.2.0
     metadataVersion: 4.2-IV1
-
     listeners:
-      - name: plain
-        port: 9092
-        type: internal
-        tls: false
-
-      - name: tls
+      - name: internal
         port: 9093
         type: internal
         tls: true
         authentication:
           type: tls
+    authorization:
+      type: simple
 
     config:
       # Producer-side: mandatory acks=all for reliability
@@ -36,15 +32,10 @@ spec:
 
       auto.create.topics.enable: false
 
-      # For demo purposes reducing log retention
-      log.retention.hours: 24
-      log.segment.bytes: 1073741824
-
       num.partitions: 3
 
-    template:
-      podDisruptionBudget:
-        maxUnavailable: 1
+    rack:
+      topologyKey: topology.kubernetes.io/zone
 
   entityOperator:
     topicOperator: {}

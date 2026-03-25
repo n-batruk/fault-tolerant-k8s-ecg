@@ -31,30 +31,5 @@ spec:
         size: 10Gi
         deleteClaim: false
         kraftMetadata: shared
-        # For demo this PVC is created using local-path storage
         # For production it is recommended to use network-attached block storage such as
         # AWS EBS or GCP Persistent Disk
-  template:
-    pod:
-      metadata:
-        labels:
-          app.kubernetes.io/name: kafka
-          app.kubernetes.io/part-of: ecg-platform
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: node-role.ecg/kafka
-                    operator: In
-                    values:
-                      - "true"
-        podAntiAffinity:
-          preferredDuringSchedulingIgnoredDuringExecution:
-            - weight: 100
-              podAffinityTerm:
-                topologyKey: kubernetes.io/hostname
-                labelSelector:
-                  matchLabels:
-                    strimzi.io/cluster: ecg-kafka
-                    strimzi.io/name: ecg-kafka-kafka
