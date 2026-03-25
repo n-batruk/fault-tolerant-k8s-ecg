@@ -1,0 +1,60 @@
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaNodePool
+metadata:
+  name: dual-role
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: ecg-kafka
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: ecg-kafka
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  replicas: 3
+  roles:
+    - controller
+    - broker
+  # For demo purposes dual-role nodes were created
+  # Create separate controller and broker nodes in production
+  resources:
+    requests:
+      cpu: 250m
+      memory: 768Mi
+    limits:
+      cpu: "1"
+      memory: 1536Mi
+  storage:
+    type: jbod
+    volumes:
+      - id: 0
+        type: persistent-claim
+        class: kafka-local-storage
+        size: 10Gi
+        deleteClaim: false
+        kraftMetadata: shared
+        # For demo this PVC is created using local-path storage
+        # For production it is recommended to use network-attached block storage such as
+        # AWS EBS or GCP Persistent Disk
+  template:
+    pod:
+      metadata:
+        labels:
+          app.kubernetes.io/name: kafka
+          app.kubernetes.io/part-of: ecg-platform
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.ecg/kafka
+                    operator: In
+                    values:
+                      - "true"
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    strimzi.io/cluster: ecg-kafka
+                    strimzi.io/name: ecg-kafka-kafka

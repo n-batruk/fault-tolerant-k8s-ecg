@@ -1,0 +1,42 @@
+apiVersion: kafka.strimzi.io/v1
+kind: KafkaUser
+metadata:
+  name: ecg-app
+  namespace: kafka
+  labels:
+    strimzi.io/cluster: ecg-kafka
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: ecg-kafka
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  authentication:
+    type: tls
+
+  authorization:
+    type: simple
+    acls:
+      - resource:
+          type: topic
+          name: ecg.events
+          patternType: literal
+        operations:
+          - Read
+          - Write
+          - Describe
+          - Create
+        host: "*"
+
+      - resource:
+          type: group
+          name: ecg-
+          patternType: prefix
+        operations:
+          - Read
+          - Describe
+        host: "*"
+
+      - resource:
+          type: cluster
+        operations:
+          - Describe
+        host: "*"

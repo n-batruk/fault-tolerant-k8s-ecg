@@ -1,0 +1,51 @@
+apiVersion: kafka.strimzi.io/v1
+kind: Kafka
+metadata:
+  name: ecg-kafka
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/instance: ecg-kafka
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  kafka:
+    version: 4.2.0
+    metadataVersion: 4.2-IV1
+
+    listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+
+      - name: tls
+        port: 9093
+        type: internal
+        tls: true
+        authentication:
+          type: tls
+
+    config:
+      # Producer-side: mandatory acks=all for reliability
+      default.replication.factor: 3
+      min.insync.replicas: 2
+
+      offsets.topic.replication.factor: 3
+      transaction.state.log.replication.factor: 3
+      transaction.state.log.min.isr: 2
+
+      auto.create.topics.enable: false
+
+      # For demo purposes reducing log retention
+      log.retention.hours: 24
+      log.segment.bytes: 1073741824
+
+      num.partitions: 3
+
+    template:
+      podDisruptionBudget:
+        maxUnavailable: 1
+
+  entityOperator:
+    topicOperator: {}
+    userOperator: {}
