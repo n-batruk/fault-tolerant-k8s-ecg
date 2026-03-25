@@ -1,0 +1,4 @@
+config:
+  clusterWide: true
+  data:
+    WATCH_NAMESPACE: "database"
