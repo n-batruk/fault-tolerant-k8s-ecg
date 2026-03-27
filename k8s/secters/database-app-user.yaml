@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: ecg-app-user
+  namespace: database
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: ecg-postgres
+    app.kubernetes.io/part-of: ecg-platform
+    app.kubernetes.io/component: database-credentials
+type: kubernetes.io/basic-auth
+stringData:
+  username: ecg_app
+  password: REPLACE_ME

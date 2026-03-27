@@ -1,0 +1,64 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ecg-postgres
+  namespace: database
+  labels:
+    app.kubernetes.io/name: postgres
+    app.kubernetes.io/instance: ecg-postgres
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.4
+  imagePullPolicy: IfNotPresent
+  instances: 3
+  minSyncReplicas: 1
+  maxSyncReplicas: 1
+  bootstrap:
+    initdb:
+      database: ecg
+      owner: ecg_app
+      secret:
+        name: ecg-app-user
+  storage:
+    storageClass: standard
+    size: 10Gi
+  walStorage:
+    storageClass: standard
+    size: 5Gi
+  postgresql:
+    parameters:
+      max_connections: "100"
+      timezone: "UTC"
+      wal_compression: "on"
+  resources:
+    requests:
+      cpu: "500m"
+      memory: "512Mi"
+    limits:
+      cpu: "500m"
+      memory: "512Mi"
+  affinity:
+    enablePodAntiAffinity: true
+    topologyKey: topology.kubernetes.io/zone
+    podAntiAffinityType: required
+  enablePDB: true
+  # Add backups 
+  # production option:
+  # primaryUpdateStrategy: supervised
+  primaryUpdateStrategy: unsupervised
+  primaryUpdateMethod: switchover
+  enableSuperuserAccess: false
+  managed:
+  roles:
+    - name: ecg_readonly
+      ensure: present
+      login: true
+      passwordSecret:
+        name: ecg-readonly-user
+
+    - name: ecg_migrator
+      ensure: present
+      login: true
+      passwordSecret:
+        name: ecg-migrator-user
+  
