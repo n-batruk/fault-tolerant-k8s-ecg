@@ -41,6 +41,13 @@ spec:
     enablePodAntiAffinity: true
     topologyKey: topology.kubernetes.io/zone
     podAntiAffinityType: required
+    nodeSelector:
+      node-pool.ecg/name: postgres
+    tolerations:
+    - key: dedicated
+      operator: Equal
+      value: postgres
+      effect: NoSchedule
   enablePDB: true
   # Add backups 
   # production option:
@@ -49,16 +56,18 @@ spec:
   primaryUpdateMethod: switchover
   enableSuperuserAccess: false
   managed:
-  roles:
-    - name: ecg_readonly
-      ensure: present
-      login: true
-      passwordSecret:
-        name: ecg-readonly-user
+    roles:
+      - name: ecg_readonly
+        ensure: present
+        login: true
+        passwordSecret:
+          name: ecg-readonly-user
 
-    - name: ecg_migrator
-      ensure: present
-      login: true
-      passwordSecret:
-        name: ecg-migrator-user
-  
+      - name: ecg_migrator
+        ensure: present
+        login: true
+        passwordSecret:
+          name: ecg-migrator-user
+  monitoring:
+    enablePodMonitor: true
+    

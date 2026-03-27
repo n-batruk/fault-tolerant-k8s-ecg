@@ -5,24 +5,79 @@ name: ecg-k8s
 nodes:
   - role: control-plane
     image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "control-plane"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "control-plane"
 
   - role: worker
     image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
     labels:
-      node-role.ecg/worker: "true"
-      node-role.ecg/kafka: "true"
-      topology.kubernetes.io/zone: "kind-worker-1"
+      node.ecg/name: "kafka-a"
+      node-pool.ecg/name: "kafka"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-a"
 
   - role: worker
     image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
     labels:
-      node-role.ecg/worker: "true"
-      node-role.ecg/kafka: "true"
-      topology.kubernetes.io/zone: "kind-worker-2"
+      node.ecg/name: "kafka-b"
+      node-pool.ecg/name: "kafka"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-b"
 
   - role: worker
     image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
     labels:
-      node-role.ecg/worker: "true"
-      node-role.ecg/kafka: "true"
-      topology.kubernetes.io/zone: "kind-worker-3"
+      node.ecg/name: "kafka-c"
+      node-pool.ecg/name: "kafka"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-c"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "postgres-a"
+      node-pool.ecg/name: "postgres"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-a"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "postgres-b"
+      node-pool.ecg/name: "postgres"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-b"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "postgres-c"
+      node-pool.ecg/name: "postgres"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-c"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "app-a"
+      node-pool.ecg/name: "app"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-a"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "app-b"
+      node-pool.ecg/name: "app"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-b"
+
+  - role: worker
+    image: kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+    labels:
+      node.ecg/name: "observability-a"
+      node-pool.ecg/name: "observability"
+      topology.kubernetes.io/region: "demo-region"
+      topology.kubernetes.io/zone: "zone-c"
