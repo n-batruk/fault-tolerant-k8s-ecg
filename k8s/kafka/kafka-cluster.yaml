@@ -18,6 +18,12 @@ spec:
         tls: true
         authentication:
           type: tls
+    metricsConfig:
+      type: jmxPrometheusExporter
+      valueFrom:
+        configMapKeyRef:
+          name: ecg-kafka-metrics
+          key: kafka-metrics-config.yml
     authorization:
       type: simple
     config:

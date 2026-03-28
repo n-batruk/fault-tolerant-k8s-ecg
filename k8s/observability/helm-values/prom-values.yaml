@@ -13,9 +13,7 @@ defaultRules:
     kubeApiserverBurnrate: true
     kubeApiserverHistogram: true
     kubeApiserverSlos: true
-    kubeControllerManager: true
     kubelet: true
-    kubeProxy: true
     kubePrometheusGeneral: true
     kubePrometheusNodeRecording: true
     kubernetesApps: true
@@ -30,7 +28,12 @@ defaultRules:
     nodeExporterRecording: true
     prometheus: true
     prometheusOperator: true
-
+    
+    # Scraping will not work in kind cluster
+    kubeScheduler: true
+    kubeEtcd: true
+    kubeProxy: true
+    kubeControllerManager: true
 prometheusOperator:
   admissionWebhooks:
     enabled: true

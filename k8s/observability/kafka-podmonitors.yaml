@@ -5,7 +5,7 @@ metadata:
   namespace: observability
   labels:
     release: ecg-monitoring
-    app.kubernetes.io/name: kafka
+    app.kubernetes.io/name: kafka-brokers
     app.kubernetes.io/part-of: ecg-platform
 spec:
   namespaceSelector:
@@ -14,7 +14,7 @@ spec:
   selector:
     matchLabels:
       strimzi.io/cluster: ecg-kafka
-      strimzi.io/kind: Kafka
+      strimzi.io/name: ecg-kafka-kafka
   podMetricsEndpoints:
     - port: tcp-prometheus
       interval: 30s
