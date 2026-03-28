@@ -1,0 +1,25 @@
+configMapGenerator:
+  - name: grafana-dashboard-cloudnativepg
+    namespace: observability
+    files:
+      - cloudnativepg.json=cnpg.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+        app.kubernetes.io/name: grafana-dashboard-cloudnativepg
+        app.kubernetes.io/part-of: ecg-platform
+      annotations:
+        grafana_folder: "ECG Platform"
+  - name: grafana-dashboard-kafka
+    namespace: observability
+    files:
+      - kafka.json=kafka.json
+    options:
+      labels:
+        grafana_dashboard: "1"
+        app.kubernetes.io/name: grafana-dashboard-kafka
+        app.kubernetes.io/part-of: ecg-platform
+      annotations:
+        grafana_folder: "ECG Platform"
+generatorOptions:
+  disableNameSuffixHash: true
