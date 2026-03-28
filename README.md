@@ -1,3 +1,12 @@
+# Create kind cluster
+kind create cluster --config ./k8s/kind/kind-config.yaml
+
+# Apply taints
+./k8s/kind/taints.sh
+
+# Create namespaces
+kubectl apply -R -f ./k8s/namespaces/
+
 # Helm components installation
 
 ```bash
@@ -33,3 +42,6 @@ helm upgrade --install cnpg cnpg/cloudnative-pg \
   --namespace operators \
   --values k8s/operators/cloudnative-pg/values.yaml
 ```
+
+# Create PV
+kubectl apply -f ./k8s/storage/kafka-local-storage.yaml
