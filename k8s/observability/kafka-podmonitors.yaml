@@ -1,0 +1,45 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: ecg-kafka-brokers
+  namespace: observability
+  labels:
+    release: ecg-monitoring
+    app.kubernetes.io/name: kafka
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  namespaceSelector:
+    matchNames:
+      - kafka
+  selector:
+    matchLabels:
+      strimzi.io/cluster: ecg-kafka
+      strimzi.io/kind: Kafka
+  podMetricsEndpoints:
+    - port: tcp-prometheus
+      interval: 30s
+      scrapeTimeout: 10s
+      path: /metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: ecg-kafka-exporter
+  namespace: observability
+  labels:
+    release: ecg-monitoring
+    app.kubernetes.io/name: kafka-exporter
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  namespaceSelector:
+    matchNames:
+      - kafka
+  selector:
+    matchLabels:
+      strimzi.io/cluster: ecg-kafka
+      strimzi.io/name: ecg-kafka-kafka-exporter
+  podMetricsEndpoints:
+    - port: tcp-prometheus
+      interval: 30s
+      scrapeTimeout: 10s
+      path: /metrics
