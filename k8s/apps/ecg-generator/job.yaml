@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ecg-generator
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: ecg-generator
+    app.kubernetes.io/component: test-client
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  backoffLimit: 0
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ecg-generator
+        app.kubernetes.io/component: test-client
+        app.kubernetes.io/part-of: ecg-platform
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: ecg-generator
+          image: ecg/ecg-generator:v1
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: ecg-generator-config
