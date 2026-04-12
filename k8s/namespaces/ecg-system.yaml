@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ecg-system
+  labels:
+    app.kubernetes.io/name: ecg-system
+    app.kubernetes.io/part-of: ecg-platform

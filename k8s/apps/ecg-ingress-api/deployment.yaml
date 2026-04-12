@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grpc-stream-adapter
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: grpc-stream-adapter
+    app.kubernetes.io/component: ingestion
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: grpc-stream-adapter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: grpc-stream-adapter
+        app.kubernetes.io/component: ingestion
+        app.kubernetes.io/part-of: ecg-platform
+    spec:
+      containers:
+        - name: grpc-stream-adapter
+          image: ecg/grpc-stream-adapter:v1
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 50051
+          envFrom:
+            - configMapRef:
+                name: grpc-stream-adapter-config
+          # add later
+          # readinessProbe:
+          # livenessProbe:
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi

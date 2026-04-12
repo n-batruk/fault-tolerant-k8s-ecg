@@ -1,0 +1,4 @@
+aiokafka==0.14.0
+grpcio==1.81.0
+grpcio-tools==1.81.0
+protobuf==6.33.6

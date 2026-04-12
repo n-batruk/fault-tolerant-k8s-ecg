@@ -12,6 +12,11 @@ spec:
     version: 4.2.0
     metadataVersion: 4.2-IV1
     listeners:
+      - name: plain
+        port: 9092
+        type: internal
+        tls: false
+
       - name: internal
         port: 9093
         type: internal
@@ -24,8 +29,8 @@ spec:
         configMapKeyRef:
           name: ecg-kafka-metrics
           key: kafka-metrics-config.yml
-    authorization:
-      type: simple
+    # authorization:
+    #   type: simple
     config:
       # Producer-side: mandatory acks=all for reliability
       default.replication.factor: 3
