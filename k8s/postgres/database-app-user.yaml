@@ -10,5 +10,6 @@ metadata:
     app.kubernetes.io/component: database-credentials
 type: kubernetes.io/basic-auth
 stringData:
+  POSTGRES_DB: "ecg"
   username: ecg_app
-  password: REPLACE_ME
+  password: REPLACE_ME # Secret manager must be used in production setup

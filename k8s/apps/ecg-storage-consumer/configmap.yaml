@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ecg-storage-consumer-config
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: ecg-storage-consumer
+    app.kubernetes.io/component: storage-consumer
+    app.kubernetes.io/part-of: ecg-platform
+data:
+  KAFKA_BOOTSTRAP_SERVERS: "ecg-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
+  KAFKA_TOPIC: "ecg.raw"
+  KAFKA_GROUP_ID: "ecg-storage-consumer"
+  KAFKA_AUTO_OFFSET_RESET: "earliest"
+
+  POSTGRES_HOST: "ecg-postgres-pooler-rw.database.svc.cluster.local"
+  POSTGRES_PORT: "5432"
+
+  LOG_LEVEL: "INFO"
