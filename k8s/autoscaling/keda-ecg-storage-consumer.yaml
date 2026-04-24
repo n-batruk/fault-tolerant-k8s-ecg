@@ -1,0 +1,26 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: ecg-storage-consumer-kafka-lag
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: ecg-storage-consumer
+    app.kubernetes.io/component: autoscaling
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: ecg-storage-consumer
+
+  minReplicaCount: 1
+  maxReplicaCount: 3
+
+  triggers:
+    - type: apache-kafka
+      metadata:
+        bootstrapServers: ecg-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092
+        consumerGroup: ecg-storage-consumer
+        topic: ecg.raw
+        lagThreshold: "20"
+        offsetResetPolicy: earliest
