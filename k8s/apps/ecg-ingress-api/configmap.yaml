@@ -4,10 +4,24 @@ metadata:
   name: grpc-stream-adapter-config
   namespace: ecg-system
 data:
+  INGESTION_MODE: "kafka"
   GRPC_PORT: "50051"
   KAFKA_BOOTSTRAP_SERVERS: "ecg-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092"
   KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
   KAFKA_CLIENT_ID: "grpc-stream-adapter"
   KAFKA_TOPIC: "ecg.raw"
   KAFKA_DEAD_LETTER_TOPIC: "ecg.dead-letter"
+  LOG_LEVEL: "INFO"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grpc-direct-receiver-config
+  namespace: ecg-system
+data:
+  INGESTION_MODE: "direct"
+  GRPC_PORT: "50051"
+  POSTGRES_HOST: "ecg-postgres-pooler-rw.database.svc.cluster.local"
+  POSTGRES_PORT: "5432"
+  
   LOG_LEVEL: "INFO"

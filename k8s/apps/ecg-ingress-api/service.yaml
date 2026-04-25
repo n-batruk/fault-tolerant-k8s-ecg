@@ -16,3 +16,22 @@ spec:
       port: 50051
       targetPort: 50051
       protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: grpc-direct-receiver
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: grpc-direct-receiver
+    app.kubernetes.io/component: ingestion
+    app.kubernetes.io/part-of: ecg-platform
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: grpc-direct-receiver
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+      protocol: TCP

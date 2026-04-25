@@ -4,11 +4,12 @@ metadata:
   name: ecg-generator-config
   namespace: ecg-system
 data:
-  GRPC_TARGET: "grpc-stream-adapter.ecg-system.svc.cluster.local:50051"
+  GRPC_TARGET: "grpc-direct-receiver.ecg-system.svc.cluster.local:50051"
+  # For gRPC + kafka flow: GRPC_TARGET: "grpc-stream-adapter.ecg-system.svc.cluster.local:50051"
   SOURCE_ID: "mock-device-001"
-  SESSION_ID: ""
+  SESSION_ID: "test-3"
   SAMPLING_RATE: "500"
-  LEAD_ID: "II"
+  LEAD_ID: "I"
   CHUNKS_COUNT: "100"
   CHUNK_DURATION_SECONDS: "1"
   SEND_INTERVAL_SECONDS: "0.05"
