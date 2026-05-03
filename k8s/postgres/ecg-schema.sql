@@ -64,15 +64,10 @@ create table if not exists ecg_gaps (
 create index if not exists idx_ecg_gaps_session
     on ecg_gaps (session_id, missing_from, missing_to);
 
-create table if not exists analysis_results (
-    result_id bigserial primary key,
-    session_id text not null references ecg_sessions(session_id) on delete cascade,
-
-    window_from bigint not null,
-    window_to bigint not null,
-
-    algorithm_name text not null,
-    result_json jsonb not null,
-
-    created_at timestamptz not null default now()
+create table if not exists ecg_pull_state (
+    source_id text not null,
+    session_id text not null,
+    last_sequence_to bigint not null default -1,
+    updated_at timestamptz not null default now(),
+    primary key (source_id, session_id)
 );
