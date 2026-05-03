@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longpoll-puller-config
+  namespace: ecg-system
+  labels:
+    app.kubernetes.io/name: longpoll-puller
+    app.kubernetes.io/component: ingestion
+    app.kubernetes.io/part-of: ecg-platform
+data:
+  SOURCE_URL: "http://host.docker.internal:18080/api/v1/ecg/events"
+
+  SOURCE_ID: "mock-external-buffer-server-001"
+  SESSION_ID: "longpoll-session-001"
+
+  KAFKA_BOOTSTRAP_SERVERS: "ecg-kafka-kafka-bootstrap.kafka.svc.cluster.local:9092"
+  KAFKA_SECURITY_PROTOCOL: "PLAINTEXT"
+  KAFKA_CLIENT_ID: "longpoll-puller"
+  KAFKA_TOPIC: "ecg.raw"
+  KAFKA_CONNECT_MAX_ATTEMPTS: "12"
+  KAFKA_CONNECT_RETRY_DELAY_SECONDS: "5"
+
+  POSTGRES_HOST: "ecg-postgres-pooler-rw.database.svc.cluster.local"
+  POSTGRES_PORT: "5432"
+
+  BATCH_LIMIT: "10"
+  WAIT_TIMEOUT_SECONDS: "10"
+  IDLE_SLEEP_SECONDS: "1"
+  MAX_EMPTY_POLLS: "0"
+  START_AFTER_SEQUENCE: "-1"
+
+  LOG_LEVEL: "INFO"
