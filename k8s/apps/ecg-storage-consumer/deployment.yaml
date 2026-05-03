@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/component: storage-consumer
     app.kubernetes.io/part-of: ecg-platform
 spec:
-  replicas: 2
+  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
