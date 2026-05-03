@@ -57,6 +57,9 @@ singleBinary:
 gateway:
   enabled: true
 
+  nginxConfig:
+    resolver: "10.96.0.10"
+
   nodeSelector:
     node-pool.ecg/name: observability
 

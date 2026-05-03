@@ -29,11 +29,12 @@ defaultRules:
     prometheus: true
     prometheusOperator: true
     
-    # Scraping will not work in kind cluster
-    kubeScheduler: true
-    kubeEtcd: true
-    kubeProxy: true
-    kubeControllerManager: true
+    # Scraping will not work in kind cluster. Turn on in real cluster
+    etcd: false
+    kubeScheduler: false
+    kubeEtcd: false
+    kubeProxy: false
+    kubeControllerManager: false
 prometheusOperator:
   admissionWebhooks:
     enabled: true
@@ -93,11 +94,11 @@ prometheus:
 
     resources:
       requests:
-        cpu: 150m
-        memory: 768Mi
+        cpu: 100m
+        memory: 512Mi
       limits:
-        cpu: 800m
-        memory: 1536Mi
+        cpu: 600m
+        memory: 1Gi
 
 alertmanager:
   enabled: true
